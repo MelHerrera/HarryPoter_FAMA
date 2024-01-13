@@ -1,19 +1,21 @@
 package com.example.harrypoter_fama
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.harrypoter_fama.adapters.CharacterAdapter
 import com.example.harrypoter_fama.api.ApiAdapter
 import com.example.harrypoter_fama.databinding.ActivityMainBinding
+import com.example.harrypoter_fama.models.Character
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
-import com.example.harrypoter_fama.models.Character
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getCharacters();
+        getCharacters()
     }
 
     private fun getCharacters(){
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             withContext(Dispatchers.IO)
             {
                 try {
-                    apiResponse = ApiAdapter.apiClient.getCharacters();
+                    apiResponse = ApiAdapter.apiClient.getCharacters()
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main){
                         Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
@@ -52,7 +54,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCharacters(characters:ArrayList<Character>){
-        val mLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false )
+        val mLayoutManager = FlexboxLayoutManager(this)
+        mLayoutManager.setFlexDirection(FlexDirection.ROW)
+        mLayoutManager.setJustifyContent(JustifyContent.FLEX_START)
+        mLayoutManager.flexWrap = FlexWrap.WRAP
+
         binding.vRecyclerCharacters.layoutManager = mLayoutManager
         binding.vRecyclerCharacters.adapter = CharacterAdapter(characters, R.layout.item_personaje)
     }

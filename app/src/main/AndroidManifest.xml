@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET">
-    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HarryPoter_FAMA"
         tools:targetApi="31">
+        <activity
+            android:name=".CharacterDetailsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_character_details"
+            android:theme="@style/Theme.HarryPoter_FAMA" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
