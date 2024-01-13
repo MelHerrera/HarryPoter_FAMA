@@ -10,4 +10,10 @@
     android:focusable="true"
     app:cardCornerRadius="10dp">
 
+    <ImageView
+        android:id="@+id/vPoster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"/>
+
 </com.google.android.material.card.MaterialCardView>
