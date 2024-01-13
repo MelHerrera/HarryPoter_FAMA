@@ -6,7 +6,12 @@ import com.squareup.picasso.Picasso
 class Utils {
     companion object {
         fun ImageView.fromUrl(url: String) {
-            Picasso.get().load(url).into(this)
+            if (url.length > 0)
+            Picasso
+                .get()
+                .load(url)
+                .placeholder(context.resources.getDrawable(R.drawable.bat))
+                .into(this)
         }
     }
 }
