@@ -1,6 +1,7 @@
 package com.example.harrypoter_fama.adapters
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.harrypoter_fama.CharacterDetailsActivity
 import com.example.harrypoter_fama.R
 import com.example.harrypoter_fama.Utils.Companion.fromUrl
+import com.example.harrypoter_fama.Utils.Companion.toByteArray
 import com.example.harrypoter_fama.models.Character
 
 
@@ -41,8 +43,13 @@ class CharacterAdapter(private val characters: ArrayList<Character>, private val
             personajeSpeciesAndGender.text = "${character.species} - ${character.gender}"
 
             itemView.setOnClickListener {
-                val myNewActivity=Intent(itemView.context,CharacterDetailsActivity::class.java)
-                itemView.context.startActivity(myNewActivity)
+                val mIntent=Intent(itemView.context,CharacterDetailsActivity::class.java)
+                val dataToSend = Bundle()
+                dataToSend.putParcelable("currentCharacter", character)
+                dataToSend.putByteArray("imagePersonaje", personajePoster.toByteArray())
+
+                mIntent.putExtras(dataToSend)
+                itemView.context.startActivity(mIntent)
             }
         }
     }

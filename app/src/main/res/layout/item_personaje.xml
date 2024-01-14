@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:id="@+id/vCardPersonaje"
     android:layout_margin="3dp"
-    android:checkable="true"
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="10dp">
