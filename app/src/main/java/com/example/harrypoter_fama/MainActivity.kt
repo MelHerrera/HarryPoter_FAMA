@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.harrypoter_fama.Utils.Companion.isNetAvailable
 import com.example.harrypoter_fama.adapters.CharacterAdapter
 import com.example.harrypoter_fama.api.ApiAdapter
 import com.example.harrypoter_fama.databinding.ActivityMainBinding
@@ -25,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if(isNetAvailable())
+            Toast.makeText(this, "hay red", Toast.LENGTH_SHORT).show()
+        else
+            Toast.makeText(this, "Sin red", Toast.LENGTH_SHORT).show()
 
         getCharacters()
     }
