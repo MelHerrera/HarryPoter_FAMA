@@ -7,13 +7,13 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.example.harrypoter_fama.Utils.Companion.isNetAvailable
+import com.example.harrypoter_fama.Utils.Companion.toCharacterDTO
+import com.example.harrypoter_fama.Utils.Companion.toCharacterEntity
 import com.example.harrypoter_fama.adapters.CharacterAdapter
 import com.example.harrypoter_fama.api.ApiAdapter
 import com.example.harrypoter_fama.databinding.ActivityMainBinding
 import com.example.harrypoter_fama.dto.CharacterResponse
-import com.example.harrypoter_fama.dto.CharacterWand
 import com.example.harrypoter_fama.models.Character
-import com.example.harrypoter_fama.models.Wand
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -41,14 +41,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if(isNetAvailable())
-            Toast.makeText(this, "hay red", Toast.LENGTH_SHORT).show()
+            getCharactersFromApi()//obtener de internet y guardar o actualizar en room
         else
-            Toast.makeText(this, "Sin red", Toast.LENGTH_SHORT).show()
-
-        getCharacters()
+        {
+            //obtener de la bd local
+            lifecycleScope.launch {
+                var characters = getAllCharacters()
+                showCharacters(characters.toCharacterDTO())
+            }
+        }
     }
 
-    private fun getCharacters(){
+    private fun getCharactersFromApi(){
         lateinit var apiResponse: Response<ArrayList<CharacterResponse>>
 
         lifecycleScope.launch {
@@ -67,15 +71,13 @@ class MainActivity : AppCompatActivity() {
                 apiResponse.body()?.let {
                     showCharacters(it)
                     saveAllCharacters(it)
-                    var datos = getAllCharacters()
-                    var first = datos.get(0)
                 }
             else
                 Toast.makeText(applicationContext, apiResponse.message(), Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun showCharacters(characterResponses:ArrayList<CharacterResponse>){
+    private fun showCharacters(characterResponses:List<CharacterResponse>){
         val mLayoutManager = FlexboxLayoutManager(this)
         mLayoutManager.setFlexDirection(FlexDirection.ROW)
         mLayoutManager.setJustifyContent(JustifyContent.FLEX_START)
@@ -86,24 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun saveAllCharacters(characters: ArrayList<CharacterResponse>) {
-        val dataToInsert = characters.map {
-            Character(
-                id = it.id,
-               name = it.name,
-                species = it.species,
-                gender = it.gender,
-                image_path = it.image_path,
-                house = it.house,
-                actor = it.actor,
-                dateOfBirth = it.dateOfBirth,
-                wand = Wand(
-                    wood = it.wand.wood,
-                    core = it.wand.core,
-                    length = it.wand.length
-                )
-            )
-        }
-
+        val dataToInsert = characters.toCharacterEntity()
         db.characterDao.inserAll(dataToInsert)
     }
 

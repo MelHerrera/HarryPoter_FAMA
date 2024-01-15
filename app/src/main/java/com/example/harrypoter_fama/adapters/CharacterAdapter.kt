@@ -15,7 +15,7 @@ import com.example.harrypoter_fama.Utils.Companion.toByteArray
 import com.example.harrypoter_fama.dto.CharacterResponse
 
 
-class CharacterAdapter(private val characterResponses: ArrayList<CharacterResponse>, private val itemViewReference:Int)
+class CharacterAdapter(private val characterResponses: List<CharacterResponse>, private val itemViewReference:Int)
     : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

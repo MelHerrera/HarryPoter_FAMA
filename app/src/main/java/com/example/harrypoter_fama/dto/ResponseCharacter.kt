@@ -19,7 +19,7 @@ data class CharacterResponse(
     //representa yearOfBirth, como  yearOfBirth1 debido a que el nombre proporcionado ya viene en la api
     var yearOfBirth1: Int = 1999
     init {
-        if (dateOfBirth != null) {
+        if (dateOfBirth != null && !dateOfBirth.isNullOrEmpty()) {
             yearOfBirth1 = dateOfBirth!!.split("-").get(2).toInt()
         }
     }

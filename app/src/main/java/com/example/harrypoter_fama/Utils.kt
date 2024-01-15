@@ -10,6 +10,11 @@ import android.os.Build
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.room.Entity
+import com.example.harrypoter_fama.dto.CharacterResponse
+import com.example.harrypoter_fama.dto.CharacterWand
+import com.example.harrypoter_fama.models.Character
+import com.example.harrypoter_fama.models.Wand
 import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
 
@@ -17,11 +22,11 @@ import java.io.ByteArrayOutputStream
 class Utils {
     companion object {
         fun ImageView.fromUrl(url: String) {
-            if (url.length > 0){
+            if (url.isNotEmpty() && this.context.isNetAvailable())
                 Picasso.get().load(url)
-                    .placeholder(context.resources.getDrawable(R.drawable.bat))
+                    .placeholder(R.drawable.harrybird)
+                    .error(R.drawable.harrybird)
                     .into(this)
-            }
         }
 
         fun ImageView.toByteArray():ByteArray{
@@ -47,6 +52,48 @@ class Utils {
                 else -> false
             }
             return result
+        }
+
+        fun List<Character>.toCharacterDTO(): List<CharacterResponse>{
+            val mapped = this.map {
+                    CharacterResponse(
+                        id = it.id,
+                        name = it.name ?: "",
+                        species = it.species ?: "",
+                        gender = it.gender ?: "",
+                        image_path = it.image_path ?: "",
+                        house = it.house ?: "",
+                        actor = it.actor ?: "",
+                        dateOfBirth = it.dateOfBirth,
+                        wand = CharacterWand(
+                            wood = it.wand.wood ?: "Unknowm",
+                            core = it.wand.core ?: "Unknowm",
+                            length = it.wand.length ?: 0.0f
+                        )
+                    )
+            }
+            return mapped
+        }
+
+        fun List<CharacterResponse>.toCharacterEntity(): List<Character>{
+            val mapped = this.map {
+                Character(
+                    id = it.id,
+                    name = it.name,
+                    species = it.species,
+                    gender = it.gender,
+                    image_path = it.image_path,
+                    house = it.house,
+                    actor = it.actor,
+                    dateOfBirth = it.dateOfBirth,
+                    wand = Wand(
+                        wood = it.wand.wood,
+                        core = it.wand.core,
+                        length = it.wand.length
+                    )
+                )
+            }
+            return mapped
         }
     }
 }
