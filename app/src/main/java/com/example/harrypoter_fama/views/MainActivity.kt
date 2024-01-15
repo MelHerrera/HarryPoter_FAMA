@@ -1,9 +1,11 @@
 package com.example.harrypoter_fama.views
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
@@ -36,15 +38,16 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         ).build()
     }
     lateinit var presenter:MainActivityContract.Presenter
+    lateinit var characterAdapter:CharacterAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        installSplashScreen()
 
         setContentView(binding.root)
 
         presenter = MainActivityPresenter(this)
+        setSupportActionBar(binding.toolbarMain)
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO){
@@ -57,6 +60,25 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
             }
         }
     }
+
+/*    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_principal, menu)
+
+        var menuSearch = menu?.findItem(R.id.menu_search)
+        var viewSearch = menuSearch?.actionView as SearchView
+        viewSearch.queryHint = "Nombre, especie, actor"
+
+        viewSearch.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+               return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+        })
+        return super.onCreateOptionsMenu(menu)
+    }*/
 
     override suspend fun showCharacters(characterResponses: List<CharacterResponse>) {
         withContext(Dispatchers.Main){
@@ -76,11 +98,11 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
             mLayoutManager.setJustifyContent(JustifyContent.FLEX_START)
             mLayoutManager.flexWrap = FlexWrap.WRAP
 
+            //guardar la instancia del adapter para que se encargue de filtrar
+            characterAdapter = CharacterAdapter(characterResponses, R.layout.item_personaje)
+
             binding.vRecyclerCharacters.layoutManager = mLayoutManager
-            binding.vRecyclerCharacters.adapter = CharacterAdapter(
-                characterResponses,
-                R.layout.item_personaje
-            )
+            binding.vRecyclerCharacters.adapter = characterAdapter
         }
     }
 

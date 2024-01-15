@@ -49,4 +49,5 @@
     <string name="txtlongitud">Longitud</string>
     <string name="txtvarita">Varita</string>
     <string name="sin_registros">Sin registros!</string>
+    <string name="txtbuscar">Buscar</string>
 </resources>
