@@ -1,5 +1,6 @@
 package com.example.harrypoter_fama.models
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -13,5 +14,6 @@ data class Character(
     val image_path: String?,
     val house: String?,
     val actor: String?,
-    val dateOfBirth: String?
+    val dateOfBirth: String?,
+    @Embedded val wand: Wand
 )

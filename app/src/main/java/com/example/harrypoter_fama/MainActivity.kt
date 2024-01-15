@@ -3,6 +3,7 @@ package com.example.harrypoter_fama
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.example.harrypoter_fama.Utils.Companion.isNetAvailable
@@ -10,7 +11,9 @@ import com.example.harrypoter_fama.adapters.CharacterAdapter
 import com.example.harrypoter_fama.api.ApiAdapter
 import com.example.harrypoter_fama.databinding.ActivityMainBinding
 import com.example.harrypoter_fama.dto.CharacterResponse
+import com.example.harrypoter_fama.dto.CharacterWand
 import com.example.harrypoter_fama.models.Character
+import com.example.harrypoter_fama.models.Wand
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -33,6 +36,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        installSplashScreen()
+
         setContentView(binding.root)
 
         if(isNetAvailable())
@@ -90,7 +95,12 @@ class MainActivity : AppCompatActivity() {
                 image_path = it.image_path,
                 house = it.house,
                 actor = it.actor,
-                dateOfBirth = it.dateOfBirth
+                dateOfBirth = it.dateOfBirth,
+                wand = Wand(
+                    wood = it.wand.wood,
+                    core = it.wand.core,
+                    length = it.wand.length
+                )
             )
         }
 
