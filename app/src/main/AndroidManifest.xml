@@ -16,12 +16,12 @@
         android:theme="@style/Theme.HarryPoter_FAMA"
         tools:targetApi="31">
         <activity
-            android:name=".CharacterDetailsActivity"
+            android:name=".views.CharacterDetailsActivity"
             android:exported="false"
             android:label="@string/title_activity_character_details"
             android:theme="@style/Theme.HarryPoter_FAMA" />
         <activity
-            android:name=".MainActivity"
+            android:name=".views.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
             <intent-filter>

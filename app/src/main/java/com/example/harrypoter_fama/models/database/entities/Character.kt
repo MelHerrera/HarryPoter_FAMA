@@ -1,4 +1,4 @@
-package com.example.harrypoter_fama.models
+package com.example.harrypoter_fama.models.database.entities
 
 import androidx.room.Embedded
 import androidx.room.Entity

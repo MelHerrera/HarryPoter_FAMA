@@ -1,10 +1,10 @@
-package com.example.harrypoter_fama
+package com.example.harrypoter_fama.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.harrypoter_fama.Utils.Companion.toBitmap
 import com.example.harrypoter_fama.databinding.ActivityCharacterDetailsBinding
-import com.example.harrypoter_fama.dto.CharacterResponse
+import com.example.harrypoter_fama.models.api.dto.CharacterResponse
 
 class CharacterDetailsActivity : AppCompatActivity() {
     lateinit var binding: ActivityCharacterDetailsBinding

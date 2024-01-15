@@ -1,9 +1,9 @@
-package com.example.harrypoter_fama.dao
+package com.example.harrypoter_fama.models.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.harrypoter_fama.models.Character
+import com.example.harrypoter_fama.models.database.entities.Character
 
 @Dao
 interface CharacterDao {

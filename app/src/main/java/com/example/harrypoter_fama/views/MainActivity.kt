@@ -1,4 +1,4 @@
-package com.example.harrypoter_fama
+package com.example.harrypoter_fama.views
 
 import android.os.Bundle
 import android.widget.Toast
@@ -6,14 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
+import com.example.harrypoter_fama.models.database.AppDatabase
+import com.example.harrypoter_fama.R
 import com.example.harrypoter_fama.Utils.Companion.isNetAvailable
 import com.example.harrypoter_fama.Utils.Companion.toCharacterDTO
 import com.example.harrypoter_fama.Utils.Companion.toCharacterEntity
-import com.example.harrypoter_fama.adapters.CharacterAdapter
-import com.example.harrypoter_fama.api.ApiAdapter
+import com.example.harrypoter_fama.views.adapters.CharacterAdapter
+import com.example.harrypoter_fama.models.api.ApiAdapter
 import com.example.harrypoter_fama.databinding.ActivityMainBinding
-import com.example.harrypoter_fama.dto.CharacterResponse
-import com.example.harrypoter_fama.models.Character
+import com.example.harrypoter_fama.models.api.dto.CharacterResponse
+import com.example.harrypoter_fama.models.database.entities.Character
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -84,7 +86,9 @@ class MainActivity : AppCompatActivity() {
         mLayoutManager.flexWrap = FlexWrap.WRAP
 
         binding.vRecyclerCharacters.layoutManager = mLayoutManager
-        binding.vRecyclerCharacters.adapter = CharacterAdapter(characterResponses, R.layout.item_personaje)
+        binding.vRecyclerCharacters.adapter = CharacterAdapter(characterResponses,
+            R.layout.item_personaje
+        )
     }
 
     private suspend fun saveAllCharacters(characters: ArrayList<CharacterResponse>) {

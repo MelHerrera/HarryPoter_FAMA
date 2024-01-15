@@ -1,4 +1,4 @@
-package com.example.harrypoter_fama.adapters
+package com.example.harrypoter_fama.views.adapters
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.harrypoter_fama.CharacterDetailsActivity
+import com.example.harrypoter_fama.views.CharacterDetailsActivity
 import com.example.harrypoter_fama.R
 import com.example.harrypoter_fama.Utils.Companion.fromUrl
 import com.example.harrypoter_fama.Utils.Companion.toByteArray
-import com.example.harrypoter_fama.dto.CharacterResponse
+import com.example.harrypoter_fama.models.api.dto.CharacterResponse
 
 
 class CharacterAdapter(private val characterResponses: List<CharacterResponse>, private val itemViewReference:Int)
@@ -43,7 +43,7 @@ class CharacterAdapter(private val characterResponses: List<CharacterResponse>, 
             personajeSpeciesAndGender.text = "${characterResponse.species} - ${characterResponse.gender}"
 
             itemView.setOnClickListener {
-                val mIntent=Intent(itemView.context,CharacterDetailsActivity::class.java)
+                val mIntent=Intent(itemView.context, CharacterDetailsActivity::class.java)
                 val dataToSend = Bundle()
                 dataToSend.putParcelable("currentCharacter", characterResponse)
                 dataToSend.putByteArray("imagePersonaje", personajePoster.toByteArray())

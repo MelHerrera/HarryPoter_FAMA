@@ -6,15 +6,11 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.room.Entity
-import com.example.harrypoter_fama.dto.CharacterResponse
-import com.example.harrypoter_fama.dto.CharacterWand
-import com.example.harrypoter_fama.models.Character
-import com.example.harrypoter_fama.models.Wand
+import com.example.harrypoter_fama.models.api.dto.CharacterResponse
+import com.example.harrypoter_fama.models.api.dto.CharacterWand
+import com.example.harrypoter_fama.models.database.entities.Character
+import com.example.harrypoter_fama.models.database.entities.Wand
 import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
 

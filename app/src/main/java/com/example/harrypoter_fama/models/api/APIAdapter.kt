@@ -1,4 +1,4 @@
-package com.example.harrypoter_fama.api
+package com.example.harrypoter_fama.models.api
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

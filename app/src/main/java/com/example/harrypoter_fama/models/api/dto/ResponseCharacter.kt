@@ -1,4 +1,4 @@
-package com.example.harrypoter_fama.dto
+package com.example.harrypoter_fama.models.api.dto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
