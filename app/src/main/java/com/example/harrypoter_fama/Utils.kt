@@ -13,6 +13,8 @@ import com.example.harrypoter_fama.models.database.entities.Character
 import com.example.harrypoter_fama.models.database.entities.Wand
 import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 class Utils {
