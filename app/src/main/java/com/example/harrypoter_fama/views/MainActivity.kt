@@ -1,7 +1,5 @@
 package com.example.harrypoter_fama.views
 
-import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -60,56 +58,30 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         }
     }
 
-/*    private fun getCharactersFromApi(){
-        var apiResponse: Response<ArrayList<CharacterResponse>>? = null
-
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO)
-            {
-                try {
-                    apiResponse = ApiAdapter.apiClient.getCharacters()
-                } catch (e: Exception) {
-                    withContext(Dispatchers.Main){
-                        Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
-                    }
-                }
+    override suspend fun showCharacters(characterResponses: List<CharacterResponse>) {
+        withContext(Dispatchers.Main){
+            if (characterResponses.size <= 0){
+                binding.vNoCharacters.visibility = View.VISIBLE
+                binding.vtxtNoCharacters.visibility = View.VISIBLE
+                binding.vRecyclerCharacters.visibility = View.GONE
+            }
+            else{
+                binding.vNoCharacters.visibility = View.GONE
+                binding.vtxtNoCharacters.visibility = View.GONE
+                binding.vRecyclerCharacters.visibility = View.VISIBLE
             }
 
-            if(apiResponse != null){
-                if(apiResponse?.isSuccessful == true && apiResponse?.code() == 200 )
-                    apiResponse?.body()?.let {
-                        showCharacters(it)
-                        presenter.saveAllCharactersInDb(db, it)
-                    }
-                else
-                    Toast.makeText(applicationContext, apiResponse?.message(), Toast.LENGTH_LONG).show()
-            }
+            val mLayoutManager = FlexboxLayoutManager(applicationContext)
+            mLayoutManager.setFlexDirection(FlexDirection.ROW)
+            mLayoutManager.setJustifyContent(JustifyContent.FLEX_START)
+            mLayoutManager.flexWrap = FlexWrap.WRAP
+
+            binding.vRecyclerCharacters.layoutManager = mLayoutManager
+            binding.vRecyclerCharacters.adapter = CharacterAdapter(
+                characterResponses,
+                R.layout.item_personaje
+            )
         }
-    }*/
-
-    override fun showCharacters(characterResponses: List<CharacterResponse>) {
-        if (characterResponses.size <= 0){
-            binding.vNoCharacters.visibility = View.VISIBLE
-            binding.vtxtvNoCharacters.visibility = View.VISIBLE
-            binding.vRecyclerCharacters.visibility = View.GONE
-        }
-        else{
-            binding.vNoCharacters.visibility = View.GONE
-            binding.vtxtvNoCharacters.visibility = View.GONE
-            binding.vRecyclerCharacters.visibility = View.VISIBLE
-        }
-
-
-        val mLayoutManager = FlexboxLayoutManager(this)
-        mLayoutManager.setFlexDirection(FlexDirection.ROW)
-        mLayoutManager.setJustifyContent(JustifyContent.FLEX_START)
-        mLayoutManager.flexWrap = FlexWrap.WRAP
-
-        binding.vRecyclerCharacters.layoutManager = mLayoutManager
-        binding.vRecyclerCharacters.adapter = CharacterAdapter(
-            characterResponses,
-            R.layout.item_personaje
-        )
     }
 
     override fun onGetCharacterError(error:Exception) {

@@ -7,7 +7,7 @@ import com.example.harrypoter_fama.models.database.entities.Character
 public  interface MainActivityContract{
 
     interface View{
-        fun showCharacters(characterResponses:List<CharacterResponse>)
+        suspend fun showCharacters(characterResponses:List<CharacterResponse>)
         fun onGetCharacterError(error:Exception)
 
         fun onResponseError(message:String)
