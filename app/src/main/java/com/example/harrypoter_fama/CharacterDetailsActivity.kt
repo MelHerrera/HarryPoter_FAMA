@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.harrypoter_fama.Utils.Companion.toBitmap
 import com.example.harrypoter_fama.databinding.ActivityCharacterDetailsBinding
-import com.example.harrypoter_fama.models.Character
+import com.example.harrypoter_fama.dto.CharacterResponse
 
 class CharacterDetailsActivity : AppCompatActivity() {
     lateinit var binding: ActivityCharacterDetailsBinding
@@ -13,18 +13,18 @@ class CharacterDetailsActivity : AppCompatActivity() {
         binding = ActivityCharacterDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val character = intent.getParcelableExtra<Character>("currentCharacter")
+        val characterResponse = intent.getParcelableExtra<CharacterResponse>("currentCharacter")
         val characterImage = intent.getByteArrayExtra("imagePersonaje")
 
         binding.vImage.setImageBitmap(characterImage?.toBitmap())
-        binding.vName.text = character?.name
-        binding.vHouse.text = character?.house
-        binding.vActor.text = character?.actor?.trim()
-        binding.vSpecieGender.text = "${character?.species} - ${character?.gender}"
-        binding.vBornAge.text = "Nac: ${character?.dateOfBirth} (${character?.yearOfBirth1})"
-        binding.vTextMaderaValue.text = character?.wand?.wood
-        binding.vTextNucleoValue.text = character?.wand?.core
-        binding.vTextLongitudValue.text = character?.wand?.length?.toString()
+        binding.vName.text = characterResponse?.name
+        binding.vHouse.text = characterResponse?.house
+        binding.vActor.text = characterResponse?.actor?.trim()
+        binding.vSpecieGender.text = "${characterResponse?.species} - ${characterResponse?.gender}"
+        binding.vBornAge.text = "Nac: ${characterResponse?.dateOfBirth} (${characterResponse?.yearOfBirth1})"
+        binding.vTextMaderaValue.text = characterResponse?.wand?.wood
+        binding.vTextNucleoValue.text = characterResponse?.wand?.core
+        binding.vTextLongitudValue.text = characterResponse?.wand?.length?.toString()
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

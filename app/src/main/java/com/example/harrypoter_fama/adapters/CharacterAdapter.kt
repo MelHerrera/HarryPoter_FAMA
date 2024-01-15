@@ -12,10 +12,10 @@ import com.example.harrypoter_fama.CharacterDetailsActivity
 import com.example.harrypoter_fama.R
 import com.example.harrypoter_fama.Utils.Companion.fromUrl
 import com.example.harrypoter_fama.Utils.Companion.toByteArray
-import com.example.harrypoter_fama.models.Character
+import com.example.harrypoter_fama.dto.CharacterResponse
 
 
-class CharacterAdapter(private val characters: ArrayList<Character>, private val itemViewReference:Int)
+class CharacterAdapter(private val characterResponses: ArrayList<CharacterResponse>, private val itemViewReference:Int)
     : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,11 +25,11 @@ class CharacterAdapter(private val characters: ArrayList<Character>, private val
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(characters[position])
+        holder.bindItem(characterResponses[position])
     }
 
     override fun getItemCount(): Int {
-        return characters.size
+        return characterResponses.size
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -37,15 +37,15 @@ class CharacterAdapter(private val characters: ArrayList<Character>, private val
         private val personajeNombres:TextView = itemView.findViewById(R.id.vName)
         private val personajeSpeciesAndGender:TextView = itemView.findViewById(R.id.vSpeciesAndGender)
 
-        fun bindItem(character: Character){
-            personajePoster.fromUrl(character.image_path)
-            personajeNombres.text = character.name
-            personajeSpeciesAndGender.text = "${character.species} - ${character.gender}"
+        fun bindItem(characterResponse: CharacterResponse){
+            personajePoster.fromUrl(characterResponse.image_path)
+            personajeNombres.text = characterResponse.name
+            personajeSpeciesAndGender.text = "${characterResponse.species} - ${characterResponse.gender}"
 
             itemView.setOnClickListener {
                 val mIntent=Intent(itemView.context,CharacterDetailsActivity::class.java)
                 val dataToSend = Bundle()
-                dataToSend.putParcelable("currentCharacter", character)
+                dataToSend.putParcelable("currentCharacter", characterResponse)
                 dataToSend.putByteArray("imagePersonaje", personajePoster.toByteArray())
 
                 mIntent.putExtras(dataToSend)
