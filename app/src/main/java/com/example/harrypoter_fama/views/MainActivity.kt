@@ -1,16 +1,25 @@
 package com.example.harrypoter_fama.views
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.harrypoter_fama.models.database.AppDatabase
 import com.example.harrypoter_fama.R
+import com.example.harrypoter_fama.SyncDataWorker
 import com.example.harrypoter_fama.Utils.Companion.isNetAvailable
 import com.example.harrypoter_fama.Utils.Companion.toCharacterDTO
 import com.example.harrypoter_fama.views.adapters.CharacterAdapter
@@ -39,13 +48,16 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     }
     lateinit var presenter:MainActivityContract.Presenter
     lateinit var characterAdapter:CharacterAdapter
+    private lateinit var connectivityManager: ConnectivityManager
+    private lateinit var networkCallback: ConnectivityManager.NetworkCallback
+    var conected:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         presenter = MainActivityPresenter(this)
         setSupportActionBar(binding.toolbarMain)
 
@@ -59,6 +71,27 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                 }
             }
         }
+
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                presenter.getAllCharactersFromApi(db)
+                runOnUiThread {
+                    conected = true
+                    invalidateOptionsMenu()
+                }
+            }
+
+            override fun onLost(network: Network) {
+                conected = false
+                invalidateOptionsMenu()
+            }
+        }
+
+        val request = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+
+        connectivityManager.registerNetworkCallback(request, networkCallback)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -79,6 +112,16 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
             }
         })
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val item = menu.findItem(R.id.menu_net)
+        if (conected) {
+            item.icon = ContextCompat.getDrawable(this, android.R.drawable.presence_online)
+        } else {
+            item.icon = ContextCompat.getDrawable(this, android.R.drawable.presence_offline)
+        }
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override suspend fun showCharacters(characterResponses: List<CharacterResponse>) {
@@ -125,5 +168,10 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         }catch (e:Exception){
             false
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 }
