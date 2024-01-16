@@ -64,8 +64,8 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_principal, menu)
 
-        var menuSearch = menu?.findItem(R.id.menu_search)
-        var viewSearch = menuSearch?.actionView as SearchView
+        val menuSearch = menu?.findItem(R.id.menu_search)
+        val viewSearch = menuSearch?.actionView as SearchView
         viewSearch.queryHint = "Nombre, especie, actor"
 
         viewSearch.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
