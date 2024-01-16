@@ -12,14 +12,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.example.harrypoter_fama.models.database.AppDatabase
 import com.example.harrypoter_fama.R
-import com.example.harrypoter_fama.SyncDataWorker
 import com.example.harrypoter_fama.Utils.Companion.isNetAvailable
 import com.example.harrypoter_fama.Utils.Companion.toCharacterDTO
 import com.example.harrypoter_fama.views.adapters.CharacterAdapter
