@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         }
     }
 
-/*    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_principal, menu)
 
         var menuSearch = menu?.findItem(R.id.menu_search)
@@ -74,11 +74,12 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                TODO("Not yet implemented")
+                characterAdapter.filter.filter(newText)
+                return false
             }
         })
         return super.onCreateOptionsMenu(menu)
-    }*/
+    }
 
     override suspend fun showCharacters(characterResponses: List<CharacterResponse>) {
         withContext(Dispatchers.Main){
