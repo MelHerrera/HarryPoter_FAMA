@@ -69,12 +69,15 @@ class CharacterAdapter(private var characterResponses: List<CharacterResponse>, 
 
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             var filteredList: MutableList<CharacterResponse> = ArrayList()
+            var busqueda = constraint.toString().toUpperCase(Locale.ROOT)
 
             if (constraint.isNullOrEmpty())
                 filteredList = listFull.toMutableList()
             else {
                 for (item in listFull) {
-                    if (item.name.uppercase(Locale.ROOT).contains(constraint.toString().uppercase()))
+                    if (item.name.uppercase().contains(busqueda)
+                        || item.species.uppercase().contains(busqueda)
+                        || item.actor.uppercase().contains(busqueda))
                         filteredList.add(item)
                 }
             }
